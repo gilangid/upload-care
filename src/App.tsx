@@ -16,7 +16,7 @@ function App() {
 
   return (
     <>
-      <header style={{ display: "flex", gap: 12, alignItems: "center", padding: 12 }}>
+      {/* <header style={{ display: "flex", gap: 12, alignItems: "center", padding: 12 }}>
         <h1 style={{ margin: 0 }}>React File Upload</h1>
         <nav style={{ marginLeft: 16 }}>
           <a href="#/" style={{ marginRight: 8 }}>
@@ -29,9 +29,9 @@ function App() {
             List Files
           </a>
         </nav>
-      </header>
+      </header> */}
 
-      <main style={{ padding: 16 }}>
+      <main style={{ padding: 0 }}>
         {route === "#/gallery" ? (
           <UploadcareGallery />
         ) : route === "#/list-files" ? (

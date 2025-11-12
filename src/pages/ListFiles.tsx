@@ -97,7 +97,7 @@ const ListFiles: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ padding: 16 }}>
+    <div style={{ marginLeft: '25%' }}>
       <h2>Uploadcare Files</h2>
       {loading && <p>Loading files...</p>}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
