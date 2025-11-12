@@ -3,6 +3,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import UploadcareUploader from "./components/UploadcareUploader";
 import UploadcareGallery from "./pages/UploadcareGallery";
+import ListFiles from "./pages/ListFiles"; // Import the new component
 
 function App() {
   const [route, setRoute] = useState<string>(window.location.hash || "#/");
@@ -21,13 +22,20 @@ function App() {
           <a href="#/" style={{ marginRight: 8 }}>
             Uploader
           </a>
-          <a href="#/gallery">Gallery</a>
+          <a href="#/gallery" style={{ marginRight: 8 }}>
+            Gallery
+          </a>
+          <a href="#/list-files">
+            List Files
+          </a>
         </nav>
       </header>
 
       <main style={{ padding: 16 }}>
         {route === "#/gallery" ? (
           <UploadcareGallery />
+        ) : route === "#/list-files" ? (
+          <ListFiles />
         ) : (
           <>
             <h2>Uploadcare File Uploader</h2>
