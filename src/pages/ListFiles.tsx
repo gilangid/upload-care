@@ -27,11 +27,44 @@ const getPreviewUrl = (file: any) => {
   return `${cleaned}/-/preview/1000x1000/`;
 };
 
+const ConfirmationModal = ({ onConfirm, onCancel }: { onConfirm: () => void; onCancel: () => void; }) => {
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000,
+    }}>
+      <div style={{
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '5px',
+        textAlign: 'center',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+      }}>
+        <p style={{ fontSize: '16px', marginBottom: '20px' }}>Do you want to erase this file from your gallery?</p>
+        <div>
+          <button onClick={onConfirm} style={{ marginRight: '10px', padding: '10px 20px', border: 'none', borderRadius: '5px', background: '#ff4d4f', color: 'white', cursor: 'pointer' }}>Yes</button>
+          <button onClick={onCancel} style={{ padding: '10px 20px', border: '1px solid #d9d9d9', borderRadius: '5px', background: 'white', cursor: 'pointer' }}>No</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ListFiles: React.FC = () => {
   const [files, setFiles] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [copiedUuid, setCopiedUuid] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [fileToDelete, setFileToDelete] = useState<string | null>(null);
 
   const handleCopyUrl = (file: any) => {
     let url = file.cdnUrl || `https://ucarecdn.com/${file.uuid}/`;
@@ -47,11 +80,12 @@ const ListFiles: React.FC = () => {
     );
   };
 
-  const handleDelete = async (uuid: string) => {
-    if (!window.confirm("Do you want erase this file from your gallery?")) {
-      return;
-    }
+  const initiateDelete = (uuid: string) => {
+    setFileToDelete(uuid);
+    setIsModalOpen(true);
+  };
 
+  const executeDelete = async (uuid: string) => {
     try {
       const publicKey = import.meta.env.VITE_UPLOADCARE_API_KEY;
       const secretKey = import.meta.env.VITE_UPLOADCARE_SECRET_KEY;
@@ -190,7 +224,7 @@ const ListFiles: React.FC = () => {
                   {copiedUuid === file.uuid ? "Copied!" : "Copy URL"}
                 </button>
                 <button
-                  onClick={() => handleDelete(file.uuid)}
+                  onClick={() => initiateDelete(file.uuid)}
                   style={{
                     marginLeft: 4,
                     background: "none",
@@ -215,6 +249,19 @@ const ListFiles: React.FC = () => {
             </div>
           ))}
         </div>
+      )}
+      {isModalOpen && fileToDelete && (
+        <ConfirmationModal
+          onConfirm={() => {
+            executeDelete(fileToDelete);
+            setIsModalOpen(false);
+            setFileToDelete(null);
+          }}
+          onCancel={() => {
+            setIsModalOpen(false);
+            setFileToDelete(null);
+          }}
+        />
       )}
     </div>
   );
