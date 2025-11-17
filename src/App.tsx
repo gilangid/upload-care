@@ -38,9 +38,9 @@ function App() {
           <ListFiles />
         ) : (
           <>
-            <h2>Uploadcare File Uploader</h2>
+            <h2>File Uploader</h2>
             <UploadcareUploader />
-            <p className="read-the-docs">This app is built with Vite and React.</p>
+            <p className="read-the-docs"></p>
           </>
         )}
       </main>
