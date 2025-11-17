@@ -48,7 +48,7 @@ const ListFiles: React.FC = () => {
   };
 
   const handleDelete = async (uuid: string) => {
-    if (!window.confirm("Are you sure you want to delete this file?")) {
+    if (!window.confirm("Do you want erase this file from your gallery?")) {
       return;
     }
 
